@@ -1,1 +1,12 @@
 typer~=0.4.0
+numpy
+scipy
+Pillow
+cython
+matplotlib
+scikit-image
+tensorflow==1.15
+keras==2.1.0
+opencv-python
+h5py==2.10.0
+imgaug

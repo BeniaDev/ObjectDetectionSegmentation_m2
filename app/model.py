@@ -4,8 +4,9 @@ import typer
 
 from typing import Optional
 from pathlib import Path
+from inference import evaluate_test_dataset, demo
 
-logging.basicConfig(filename='../data/logs/app.log', level=logging.INFO, format='%(asctime)s - %(message)s',
+logging.basicConfig(filename='./data/logs/app.log', level=logging.INFO, format='%(asctime)s - %(message)s',
                     datefmt='%d-%b-%y %H:%M:%S')
 
 app = typer.Typer()
@@ -27,6 +28,8 @@ def evaluate(dataset: Optional[Path] = Path("../data/dataset/val/")):
     :param dataset: path to validation dataset
     :return: None
     """
+
+    evaluate_test_dataset(dataset)
 
 
 @app.command()
