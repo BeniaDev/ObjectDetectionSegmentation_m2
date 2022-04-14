@@ -1,10 +1,11 @@
 import logging
+from pathlib import Path
+from typing import Optional
 
 import typer
 
-from typing import Optional
-from pathlib import Path
-from inference import evaluate_test_dataset, demo
+from inference import evaluate_test_dataset, run_demo_video
+from MRCNN.rocks import train as model_train
 
 logging.basicConfig(filename='./data/logs/app.log', level=logging.INFO, format='%(asctime)s - %(message)s',
                     datefmt='%d-%b-%y %H:%M:%S')
@@ -19,6 +20,7 @@ def train(dataset: Optional[Path] = Path("../data/dataset/train/")):
     :param dataset: path to train dataset
     :return: None
     """
+    model_train()
 
 
 @app.command()
@@ -33,12 +35,25 @@ def evaluate(dataset: Optional[Path] = Path("../data/dataset/val/")):
 
 
 @app.command()
-def demo(video_path: Optional[Path] = Path("../data/demo_video.avi")):
+def demo(video_path: Optional[Path] = Path("../data/demo/demo_video.avi")):
     """
     API call to run video and show Model work in Runtime
     :param video_path: path to demo video
     :return: None
     """
+    run_demo_video(video_path)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
