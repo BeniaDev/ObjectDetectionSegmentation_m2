@@ -4,6 +4,14 @@
 ## Creds 
 * Eugene Borisov, 971901 HITS, email: evgenyboriso@gmail.com
 
+# Dataset
+In our course team we made up "handmade" markup for dataset by cvat.org
+We prepare 85 frames for train and augmentation and 10 frames for validation
+
+
+
+# Model
+I use RCNN implementation from https://github.com/matterport/Mask_RCNN
 
 # "How To"
 
@@ -25,7 +33,10 @@ foo@bar:~$ python3 app/model.py evaluate --dataset=/path/to/evaluation/dataset
 2) Download model file from GDrive and unzip to model/ folder
 3) Install requirements.txt by pip or conda on you taste
 
-
+# Custom metrics
+* MSE of the number of abnormal clods.
+  * Achieved on val_set MSE = 11.8
+* MSE of the size of the biggest one
 
 # Utilized resources
 https://cvat.org/

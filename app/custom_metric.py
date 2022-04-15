@@ -1,6 +1,6 @@
 import numpy as np
 
-TRUE_VAL_ROCKS_COUNT = [11, 9, 6, 8, 6, 7, 9, 11, 11, 14, 11]
+TRUE_VAL_ROCKS_COUNT = [11, 9, 6, 8, 6, 7, 9, 11, 11, 14]
 TRUE_VAL_ROCKS_AREAS = []
 
 

@@ -13,6 +13,7 @@ import cv2
 import time
 
 from pathlib import Path
+from custom_metric import count_mse_count, count_mse_biggest_area
 
 # Root directory of the project
 ROOT_DIR = os.path.abspath("../")
@@ -70,6 +71,8 @@ def evaluate_test_dataset(dataset_path: Path("../data/dataset/val/")):
     dataset.prepare()
 
     # image_id = random.choice(dataset.image_ids)
+    preds_count = []
+
     for image_id in dataset.image_ids:
         image, image_meta, gt_class_id, gt_bbox, gt_mask = \
             modellib.load_image_gt(dataset, config, image_id, use_mini_mask=False)
@@ -79,10 +82,10 @@ def evaluate_test_dataset(dataset_path: Path("../data/dataset/val/")):
 
         # Run object detection
         results = model.detect([image], verbose=1)
-
         # Display results
         ax = get_ax(1)
         r = results[0]
+        preds_count.append(len(r["class_ids"]))
 
 
         visualize.display_instances(image, r['rois'], r['masks'], r['class_ids'],
@@ -91,6 +94,9 @@ def evaluate_test_dataset(dataset_path: Path("../data/dataset/val/")):
         log("gt_class_id", gt_class_id)
         log("gt_bbox", gt_bbox)
         log("gt_mask", gt_mask)
+
+    count_mse_count(preds_count)
+
 
 
 
