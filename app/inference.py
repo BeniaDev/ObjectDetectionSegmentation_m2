@@ -16,6 +16,7 @@ from pathlib import Path
 
 # Root directory of the project
 ROOT_DIR = os.path.abspath("../")
+DEMO_VIDEO_ABS_PATH = "/Users/eugeneborisov/Documents/University/3rd_year/ML/ObjectDetectionSegmentation_m2/data/demo/demo_video_0.avi"
 
 # Import Mask RCNN
 sys.path.append(ROOT_DIR)  # To find local version of the library
@@ -110,7 +111,7 @@ def color_splash(image, mask):
 
 
 
-def run_demo_video(video_path: Path("../data/demo_video.avi")):
+def run_demo_video(video_path: Path("../data/demo_video_0.avi")):
     config = InferenceConfig()
 
     # Create model object in inference mode.
@@ -120,20 +121,22 @@ def run_demo_video(video_path: Path("../data/demo_video.avi")):
     model.load_weights(ROCKS_MODEL_PATH, by_name=True)
 
     # Video capture
-    vcapture = cv2.VideoCapture("/Users/eugeneborisov/Documents/University/3rd_year/ML/ObjectDetectionSegmentation_m2/data/demo/demo_video_0.avi")
+    vcapture = cv2.VideoCapture(DEMO_VIDEO_ABS_PATH)#video_path.absolute().__doc__ dont work
     width = int(vcapture.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(vcapture.get(cv2.CAP_PROP_FRAME_HEIGHT))
     fps = vcapture.get(cv2.CAP_PROP_FPS)
 
     # Define codec and create video writer
     file_name = "demo_rocks_output_{:%Y%m%dT%H%M%S}.avi".format(datetime.datetime.now())
-    vwriter = cv2.VideoWriter(file_name,
+    save_dir_path = "./data/demo/"
+    vwriter = cv2.VideoWriter(save_dir_path + file_name,
                               cv2.VideoWriter_fourcc(*'XVID'),
                               fps, (width, height))
 
     count = 0
     success = True
     while success:
+
         print("frame: ", count)
         # Read next image
         success, image = vcapture.read()
@@ -153,6 +156,7 @@ def run_demo_video(video_path: Path("../data/demo_video.avi")):
             vwriter.write(splash)
             count += 1
     vwriter.release()
+
 
     #TODO: add logging of model saving
 

@@ -5,7 +5,7 @@ from typing import Optional
 import typer
 
 from inference import evaluate_test_dataset, run_demo_video
-from MRCNN.rocks import train as model_train
+from MRCNN.rocks import run_train
 
 logging.basicConfig(filename='./data/logs/app.log', level=logging.INFO, format='%(asctime)s - %(message)s',
                     datefmt='%d-%b-%y %H:%M:%S')
@@ -20,7 +20,9 @@ def train(dataset: Optional[Path] = Path("../data/dataset/train/")):
     :param dataset: path to train dataset
     :return: None
     """
-    model_train()
+    run_train(dataset)
+    # I'm really suggest you to follow my jup notebook to train you model in google colab with GPU and then add it to
+    # repo in model dir
 
 
 @app.command()
@@ -42,20 +44,6 @@ def demo(video_path: Optional[Path] = Path("../data/demo/demo_video.avi")):
     :return: None
     """
     run_demo_video(video_path)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 if __name__ == '__main__':
