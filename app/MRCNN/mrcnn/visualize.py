@@ -80,7 +80,23 @@ def apply_mask(image, mask, color, alpha=0.5):
     return image
 
 
-def display_instances(image, boxes, masks, class_ids, class_names, image_id: str="def_image_id_0.png",
+def count_area(box: list) -> float:
+    "get box and return area of rock_box"
+    # https://qna.habr.com/q/424976
+    S = ((box[0] - box[2]) ** 2 + (box[1] - box[3]) ** 2) / 2.0
+    return S
+
+
+def get_biggest_bbox_ind(bboxes: list) -> int:
+    "get bboxes and found max S rock inside them and return index"
+    bigggest_i = np.argmax(
+        [count_area(box) for box in bboxes]
+    )
+
+    return bigggest_i
+
+
+def display_instances(image, boxes, masks, class_ids, class_names, image_id: str = "def_image_id_0.png",
                       scores=None, title="",
                       figsize=(16, 16), ax=None,
                       show_mask=True, show_bbox=True,
@@ -97,6 +113,9 @@ def display_instances(image, boxes, masks, class_ids, class_names, image_id: str
     colors: (optional) An array or colors to use with each object
     captions: (optional) A list of strings to use as captions for each object
     """
+
+    biggest_rock_ind = get_biggest_bbox_ind(boxes)
+
     # Number of instances
     N = boxes.shape[0]
     if not N:
@@ -112,6 +131,8 @@ def display_instances(image, boxes, masks, class_ids, class_names, image_id: str
 
     # Generate random colors
     colors = colors or random_colors(N)
+    default_big_rock_color = (0, 1, 0, .8)
+    biggest_rock_color = (1, 0, 0, 1)
 
     # Show area outside image boundaries.
     height, width = image.shape[:2]
@@ -122,7 +143,7 @@ def display_instances(image, boxes, masks, class_ids, class_names, image_id: str
 
     masked_image = image.astype(np.uint32).copy()
     for i in range(N):
-        color = colors[i]
+        color = default_big_rock_color if i != biggest_rock_ind else biggest_rock_color #change color for red if rock the biggest
 
         # Bounding box
         if not np.any(boxes[i]):
@@ -167,7 +188,6 @@ def display_instances(image, boxes, masks, class_ids, class_names, image_id: str
 
         if not return_image:
             plt.savefig("./data/val_results/" + f"{image_id}")
-
 
     if return_image:
         return masked_image.astype(np.uint8)
