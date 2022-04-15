@@ -1,7 +1,7 @@
 # "BigBalls" Detection And Segmentation Task
 
 
-#Validation Set Run Gif Example
+# Validation Set Run Gif Example
 ![Validation Set Run Example](./assets/rocks_detect_segm_example.gif)
 * Here Colored by **green** just "BigBalls" and by **red** "TheBiggestBigBalls"
 
